@@ -1,0 +1,21 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier,export_text
+
+data=pd.read_csv("Iris.csv")
+
+x=data.iloc[:,1:5]
+y=data.iloc[:,5]
+
+le=LabelEncoder()
+y=le.fit_transform(y)
+
+model=DecisionTreeClassifier(criterion="entropy")
+model.fit(x,y)
+
+print(export_text(model,feature_names=list(x.columns)))
+
+sample=[[5.1,3.5,1.4,0.2]]
+pred=model.predict(sample)
+
+print("Predicted Class:",le.inverse_transform(pred)[0])
