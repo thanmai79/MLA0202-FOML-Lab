@@ -1,0 +1,32 @@
+import pandas as pd
+from sklearn.mixture import GaussianMixture
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score
+
+data=pd.read_csv("Iris.csv")
+
+x=data.iloc[:,1:5]
+y=data.iloc[:,5]
+
+le=LabelEncoder()
+y=le.fit_transform(y)
+
+model=GaussianMixture(n_components=3,random_state=42)
+model.fit(x)
+
+pred=model.predict(x)
+
+m={}
+for i in range(3):
+    t=y[pred==i]
+    if len(t)>0:
+        m[i]=max(set(t),key=list(t).count)
+
+pred=[m[i] for i in pred]
+
+print("Accuracy:",accuracy_score(y,pred))
+
+sample=[[5.1,3.5,1.4,0.2]]
+r=model.predict(sample)
+
+print("Cluster:",r[0])
