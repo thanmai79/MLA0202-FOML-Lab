@@ -1,0 +1,16 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+print("Name: Thanmai Reddy")
+print("Reg.No: 192425372")
+data={"Income":[30000,50000,70000,90000,40000,80000],"Loan":[10000,20000,30000,40000,15000,35000],"CreditScore":["Low","Medium","High","High","Low","Medium"]}
+df=pd.DataFrame(data)
+X=df[["Income","Loan"]]
+y=df["CreditScore"]
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=42)
+model=DecisionTreeClassifier()
+model.fit(X_train,y_train)
+pred=model.predict(X_test)
+print("Predictions:",pred)
+print("Accuracy:",accuracy_score(y_test,pred))
