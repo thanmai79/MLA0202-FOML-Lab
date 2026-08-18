@@ -1,0 +1,28 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+print("Name: Thanmai Reddy")
+print("Reg.No: 192425372")
+
+data=pd.read_csv("Sales_Data.csv")
+
+X=data[["Month"]]
+y=data["Sales"]
+
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=42)
+
+model=LinearRegression()
+model.fit(X_train,y_train)
+
+pred=model.predict(X_test)
+
+print("Actual Sales:",y_test.values)
+print("Predicted Sales:",pred.round(2))
+print("R2 Score:",round(r2_score(y_test,pred),2))
+
+future_month=pd.DataFrame({"Month":[13]})
+future_sales=model.predict(future_month)
+
+print("Future Sales Prediction:",round(future_sales[0],2))
